@@ -56,7 +56,25 @@ const listarMeusTenants = async (req, res) => {
     }
 };
 
+const adicionarMedico = async (req, res) => {
+    try {
+        const { medicoId } = req.body;
+        const donoId = req.user.id;
+        
+        if (!medicoId) {
+            return res.status(400).json({ error: 'ID do médico é obrigatório.' });
+        }
+        
+        const result = await tenantService.adicionarMedicoUnidade(donoId, medicoId);
+        return res.status(200).json({ message: 'Médico vinculado à unidade com sucesso.', data: result });
+    } catch (error) {
+        console.error('Erro ao adicionar médico:', error);
+        return res.status(400).json({ error: error.message });
+    }
+};
+
 module.exports = {
     criarTenant,
-    listarMeusTenants
+    listarMeusTenants,
+    adicionarMedico
 };

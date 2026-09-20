@@ -122,7 +122,7 @@ async function runSeed() {
             }).save({ return_query: true }),
             new schemas.Medico({
                 usuario_id: typeof medicoId === 'string' ? ExpressCassandra.uuid(medicoId) : medicoId,
-                crm: 'CRM98765-RJ',
+                crm: 'CRM987654-RJ',
                 ativo: true,
                 created_at: timestamp,
                 updated_at: timestamp

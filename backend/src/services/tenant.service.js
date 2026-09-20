@@ -129,6 +129,30 @@ class TenantService {
 
         return { id: tenantId.toString(), nome, tipo_tenant: 'AUTONOMO' };
     }
+
+    async adicionarMedicoUnidade(donoId, medicoId) {
+        const { models } = require('../config/database');
+        const uuidDono = typeof donoId === 'string' ? models.uuidFromString(donoId) : donoId;
+        
+        const tenantUsuarios = await models.instance.tenant_usuarios_por_usuario.findAsync(
+            { usuario_id: uuidDono, ativo: true },
+            { allow_filtering: true }
+        );
+        
+        const donoTenant = tenantUsuarios.find(t => t.papeis && t.papeis.includes('DONO'));
+        if (!donoTenant) {
+            throw new Error('Você não possui uma unidade (Tenant) ativa para gerenciar médicos.');
+        }
+        
+        await tenantRepository.upsertUserInTenant({
+            tenantId: donoTenant.tenant_id,
+            usuarioId: medicoId,
+            tenantNome: donoTenant.tenant_nome,
+            papeis: ['MEDICO', 'PACIENTE']
+        });
+        
+        return { success: true };
+    }
 }
 
 module.exports = new TenantService();

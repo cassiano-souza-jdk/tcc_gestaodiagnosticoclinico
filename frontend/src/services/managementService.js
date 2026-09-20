@@ -24,7 +24,7 @@ export async function buscarMedicoPorCrm(crm) {
 }
 
 export async function adicionarMedicoUnidade(proprietarioId, crm, medicoId) {
-  return requisitarApi("/unidades/minha-unidade/medicos", {
+  return requisitarApi("/tenants/minha-unidade/medicos", {
     method: "POST",
     body: JSON.stringify({
       proprietario_id: proprietarioId,
