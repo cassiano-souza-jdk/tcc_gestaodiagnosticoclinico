@@ -19,7 +19,8 @@ const criarDiagnostico = async (req, res) => {
             error.message.includes('não pertence') ||
             error.message.includes('não encontrado') ||
             error.message.includes('inativo') ||
-            error.message.includes('não possui papel')
+            error.message.includes('não possui papel') ||
+            error.message.includes('Não é permitido')
         ) {
             return res.status(400).json({ error: error.message });
         }
@@ -88,9 +89,46 @@ const cancelarDiagnostico = async (req, res) => {
     }
 };
 
+const aiService = require('../services/ai.service');
+
+const obterRecomendacoesIA = async (req, res) => {
+    try {
+        const { cid } = req.query;
+        if (!cid) {
+            return res.status(400).json({ error: 'Código CID é obrigatório para recomendação.' });
+        }
+        
+        const recomendacoes = await aiService.obterRecomendacoes(cid, []);
+        return res.status(200).json({ data: recomendacoes });
+    } catch (error) {
+        console.error('Erro ao obter recomendações da IA:', error);
+        return res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+};
+
+const enviarFeedbackIA = async (req, res) => {
+    try {
+        const { cid, medicamento_nome, nota_eficacia } = req.body;
+        if (!cid || !medicamento_nome || !nota_eficacia) {
+            return res.status(400).json({ error: 'CID, medicamento e nota de eficácia são obrigatórios.' });
+        }
+        
+        // Aqui nós poderíamos salvar o feedback na nova tabela `AvaliacaoMedicamento`
+        // Mas por ora, vamos enviar diretamente para a IA para o Aprendizado por Reforço
+        await aiService.enviarFeedbackEficacia(cid, medicamento_nome, nota_eficacia);
+        
+        return res.status(200).json({ message: 'Feedback computado com sucesso.' });
+    } catch (error) {
+        console.error('Erro ao enviar feedback para IA:', error);
+        return res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+};
+
 module.exports = {
     criarDiagnostico,
     listarDiagnosticos,
     listarHistoricoPaciente,
-    cancelarDiagnostico
+    cancelarDiagnostico,
+    obterRecomendacoesIA,
+    enviarFeedbackIA
 };

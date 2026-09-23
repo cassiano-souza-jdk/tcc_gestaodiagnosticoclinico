@@ -14,4 +14,8 @@ router.get('/', authenticate, requireTenantRoles('MEDICO', 'DONO'), diagnosticoC
 // Cancelar diagnóstico (Somente Médico)
 router.patch('/:id/cancelar', authenticate, requireTenantRoles('MEDICO'), diagnosticoController.cancelarDiagnostico);
 
+// IA: Recomendações e Feedback
+router.get('/ia/recomendacoes', authenticate, diagnosticoController.obterRecomendacoesIA);
+router.post('/ia/feedback', authenticate, diagnosticoController.enviarFeedbackIA);
+
 module.exports = router;

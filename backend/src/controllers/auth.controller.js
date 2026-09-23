@@ -87,6 +87,28 @@ const selecionarPapel = async (req, res) => {
             }
         }
 
+        const { models } = require('../config/database');
+        const roles = await models.instance.tenant_usuarios_por_usuario.findAsync(
+            {
+                usuario_id: typeof usuarioId === 'string' ? models.uuidFromString(usuarioId) : usuarioId,
+                ativo: true
+            },
+            { allow_filtering: true }
+        );
+        
+        let tenant_id = null;
+        if (roles.length > 0) {
+            const roleMatch = roles.find(r => (r.papeis || []).includes(papel.toUpperCase()));
+            if (roleMatch) {
+                tenant_id = roleMatch.tenant_id.toString();
+            } else {
+                tenant_id = roles[0].tenant_id.toString();
+            }
+        }
+        if (tenant_id) {
+            extraData.tenant_id = tenant_id;
+        }
+
         const usuarioRepository = require('../repositories/usuario.repository');
         const userFull = await usuarioRepository.findById(usuarioId);
 

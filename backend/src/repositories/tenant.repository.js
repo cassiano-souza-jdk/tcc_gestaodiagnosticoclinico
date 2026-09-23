@@ -14,8 +14,8 @@ class TenantRepository {
 
     async findUserInTenant(tenantId, usuarioId) {
         return await schemas.TenantUsuarioPorTenant.findOneAsync({ 
-            tenant_id: ExpressCassandra.uuid(tenantId), 
-            usuario_id: ExpressCassandra.uuid(usuarioId) 
+            tenant_id: typeof tenantId === 'string' ? models.uuidFromString(tenantId) : tenantId, 
+            usuario_id: typeof usuarioId === 'string' ? models.uuidFromString(usuarioId) : usuarioId 
         });
     }
 

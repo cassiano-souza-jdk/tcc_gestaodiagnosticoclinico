@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  cassandra:
+    image: cassandra:latest
+    container_name: tcc_cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=TCCCluster
+      - CASSANDRA_DC=datacenter1
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  ai-service:
+    build: 
+      context: ./ai
+    container_name: tcc_ai_service
+    ports:
+      - "8000:8000"
+    restart: always
+
+  backend:
+    build: 
+      context: ./backend
+    container_name: tcc_backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - CASSANDRA_HOST=cassandra
+      - CASSANDRA_PORT=9042
+      - CASSANDRA_DATACENTER=datacenter1
+      - CASSANDRA_KEYSPACE=saude_app
+      - JWT_SECRET=super_secret_key_tcc
+      - AI_SERVICE_URL=http://ai-service:8000
+    depends_on:
+      cassandra:
+        condition: service_healthy
+      ai-service:
+        condition: service_started
+    restart: always
+
+volumes:
+  cassandra_data:

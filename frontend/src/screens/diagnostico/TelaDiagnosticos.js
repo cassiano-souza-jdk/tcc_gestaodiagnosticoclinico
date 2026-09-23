@@ -6,7 +6,7 @@ import Tela from "../../components/Tela";
 import BotaoPrimario from "../../components/BotaoPrimario";
 import CampoSelecaoData from "../../components/CampoSelecaoData";
 import { usarAutenticacao } from "../../contexts/AuthenticationContext";
-import { listarDiagnosticos, listarLinhasTempo } from "../../services/diagnosisService";
+import { listarDiagnosticos, listarLinhasTempo, enviarFeedbackIA } from "../../services/diagnosisService";
 import { listarEdicoesUtilizadas, marcarEdicaoComoUtilizada } from "../../services/diagnosisEditCache";
 import { gerarPdf, htmlDiagnostico, htmlLinhaTempo, imprimirHtml } from "../../services/printingService";
 import { formatarDataBr } from "../../utils/masks";
@@ -53,11 +53,21 @@ export default function TelaDiagnosticos({ navigation: navegacao }) {
   const [diagnosticoParaEditar, definirDiagnosticoParaEditar] = useState(null);
   const [edicoesUtilizadas, definirEdicoesUtilizadas] = useState([]);
   const [agora, definirAgora] = useState(Date.now());
+  const [modalFeedback, definirModalFeedback] = useState(false);
+  const [medicamentoFeedback, definirMedicamentoFeedback] = useState(null);
 
   useEffect(() => {
     const temporizador = setInterval(() => definirAgora(Date.now()), 15000);
     return () => clearInterval(temporizador);
   }, []);
+
+  async function handleEnviarFeedback(nota) {
+    if (!diagnosticoSelecionado || !medicamentoFeedback) return;
+    await enviarFeedbackIA(diagnosticoSelecionado.cid, medicamentoFeedback.nome, nota);
+    Alert.alert("Feedback enviado", "Obrigado! Sua avaliação ajudará nossa IA a recomendar tratamentos melhores.");
+    definirModalFeedback(false);
+    definirMedicamentoFeedback(null);
+  }
 
   const carregar = useCallback(async () => {
     const diagnosticos = await listarDiagnosticos(usuario);
@@ -258,7 +268,17 @@ export default function TelaDiagnosticos({ navigation: navegacao }) {
               <Text className="mt-5 font-black text-ink">Medicamentos</Text>
               {(diagnosticoSelecionado?.medicamentos || []).length === 0 ? <Text className="mt-2 text-slate-500">Nenhum medicamento prescrito.</Text> : (diagnosticoSelecionado?.medicamentos || []).map((medicamento, indice) => (
                 <View key={medicamento.id ?? indice} className="mt-2 rounded-2xl bg-mint-50 p-3">
-                  <Text className="font-bold text-ink">{medicamento.nome}</Text>
+                  <View className="flex-row items-center justify-between gap-3">
+                    <Text className="font-bold text-ink">{medicamento.nome}</Text>
+                    {usuario?.role === "paciente" && (
+                      <Pressable 
+                        onPress={() => { definirMedicamentoFeedback(medicamento); definirModalFeedback(true); }}
+                        className="rounded-lg bg-mint-200 px-3 py-1 active:bg-mint-300"
+                      >
+                        <Text className="text-xs font-bold text-mint-800">Avaliar Eficácia</Text>
+                      </Pressable>
+                    )}
+                  </View>
                   <Text className="mt-1 text-xs text-slate-500">Dose: {medicamento.dose || "-"} · Frequência: {medicamento.frequencia || "-"} · Duração: {medicamento.duracao || "-"}{medicamento.observacao ? ` · ${medicamento.observacao}` : ""}</Text>
                 </View>
               ))}
@@ -269,6 +289,29 @@ export default function TelaDiagnosticos({ navigation: navegacao }) {
               </View>
             </View>
           </ScrollView>
+        </View>
+      </Modal>
+
+      <Modal visible={modalFeedback} transparent animationType="fade" onRequestClose={() => definirModalFeedback(false)}>
+        <View className="flex-1 items-center justify-center bg-black/40 p-5">
+          <View className="w-full max-w-[400px] rounded-3xl bg-white p-6">
+            <Text className="text-xl font-black text-ink mb-2">Como foi o tratamento?</Text>
+            <Text className="text-sm text-slate-600 mb-5">Avalie a eficácia do medicamento <Text className="font-bold">{medicamentoFeedback?.nome}</Text> para ajudar nossa IA.</Text>
+            
+            <View className="flex-row justify-center gap-3 mb-6">
+              {[1, 2, 3, 4, 5].map((nota) => (
+                <Pressable
+                  key={nota}
+                  onPress={() => handleEnviarFeedback(nota)}
+                  className="w-12 h-12 rounded-full items-center justify-center bg-mint-50 border border-mint-200 active:bg-mint-200"
+                >
+                  <Text className="font-bold text-lg text-mint-800">{nota}</Text>
+                </Pressable>
+              ))}
+            </View>
+            
+            <BotaoPrimario titulo="Cancelar" variante="secondary" aoPressionar={() => definirModalFeedback(false)} />
+          </View>
         </View>
       </Modal>
 

@@ -14,5 +14,7 @@ schemas.TenantUsuarioPorUsuario = models.loadSchema('tenant_usuarios_por_usuario
 schemas.DiagnosticoPorTenant = models.loadSchema('diagnosticos_por_tenant', require('./diagnosticoPorTenant.model'));
 schemas.DiagnosticoPorPaciente = models.loadSchema('diagnosticos_por_paciente', require('./diagnosticoPorPaciente.model'));
 schemas.AuditoriaPorTenant = models.loadSchema('auditoria_por_tenant', require('./auditoriaPorTenant.model'));
+schemas.Prescricao = models.loadSchema('prescricoes', require('./prescricao.model'));
+schemas.AvaliacaoMedicamento = models.loadSchema('avaliacoes_medicamento', require('./avaliacaoMedicamento.model'));
 
 module.exports = schemas;

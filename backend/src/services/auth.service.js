@@ -57,8 +57,12 @@ class AuthService {
         );
 
         let papeis = [];
+        let tenant_id = null;
         roles.forEach(r => {
             papeis = [...papeis, ...(r.papeis || [])];
+            if (!tenant_id && r.tenant_id) {
+                tenant_id = r.tenant_id.toString();
+            }
         });
 
         const medicoRepo = require('../repositories/medico.repository');
@@ -83,7 +87,8 @@ class AuthService {
                 nome_completo: userFull.nome_completo,
                 telefone: userFull.telefone,
                 sexo: userFull.sexo,
-                data_nascimento: userFull.data_nascimento
+                data_nascimento: userFull.data_nascimento,
+                tenant_id: tenant_id
             }
         };
     }

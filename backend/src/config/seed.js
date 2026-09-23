@@ -1,6 +1,7 @@
 const usuarioService = require('../services/usuario.service');
 const tenantService = require('../services/tenant.service');
 const usuarioRepository = require('../repositories/usuario.repository');
+const { models } = require('../config/database');
 
 async function runSeed() {
     console.log('Verificando a criação de usuários padrão...');
@@ -9,7 +10,7 @@ async function runSeed() {
         const ExpressCassandra = require('express-cassandra');
         const schemas = require('../models');
         const timestamp = new Date();
-        const fixedTenantId = ExpressCassandra.uuid('11111111-2222-3333-4444-555555555555');
+        const fixedTenantId = models.uuidFromString('11111111-2222-3333-4444-555555555555');
 
         // 1. Criar Paciente Padrão
         const cpfPaciente = '12345678901';
@@ -46,7 +47,7 @@ async function runSeed() {
                 cnpj: '12345678901234',
                 razao_social: 'Clínica TCC Médica',
                 nome_fantasia: 'Clínica Saúde APP',
-                dono_id: typeof donoId === 'string' ? ExpressCassandra.uuid(donoId) : donoId,
+                dono_id: typeof donoId === 'string' ? models.uuidFromString(donoId) : donoId,
                 ativo: true,
                 created_at: timestamp,
                 updated_at: timestamp
@@ -60,22 +61,22 @@ async function runSeed() {
             }).save({ return_query: true }),
             new schemas.TenantUsuarioPorTenant({
                 tenant_id: fixedTenantId,
-                usuario_id: typeof donoId === 'string' ? ExpressCassandra.uuid(donoId) : donoId,
+                usuario_id: typeof donoId === 'string' ? models.uuidFromString(donoId) : donoId,
                 papeis: ['DONO', 'MEDICO', 'PACIENTE'],
                 ativo: true,
                 created_at: timestamp,
                 updated_at: timestamp
             }).save({ return_query: true }),
             new schemas.TenantUsuarioPorUsuario({
-                usuario_id: typeof donoId === 'string' ? ExpressCassandra.uuid(donoId) : donoId,
+                usuario_id: typeof donoId === 'string' ? models.uuidFromString(donoId) : donoId,
                 tenant_id: fixedTenantId,
                 tenant_nome: 'Clínica Saúde APP',
                 papeis: ['DONO', 'MEDICO', 'PACIENTE'],
                 ativo: true
             }).save({ return_query: true }),
             new schemas.Medico({
-                usuario_id: typeof donoId === 'string' ? ExpressCassandra.uuid(donoId) : donoId,
-                crm: '123456-SP',
+                usuario_id: typeof donoId === 'string' ? models.uuidFromString(donoId) : donoId,
+                crm: '123456',
                 ativo: true,
                 created_at: timestamp,
                 updated_at: timestamp
@@ -107,22 +108,22 @@ async function runSeed() {
         const queriesMedico = [
             new schemas.TenantUsuarioPorTenant({
                 tenant_id: fixedTenantId,
-                usuario_id: typeof medicoId === 'string' ? ExpressCassandra.uuid(medicoId) : medicoId,
+                usuario_id: typeof medicoId === 'string' ? models.uuidFromString(medicoId) : medicoId,
                 papeis: ['MEDICO', 'PACIENTE'],
                 ativo: true,
                 created_at: timestamp,
                 updated_at: timestamp
             }).save({ return_query: true }),
             new schemas.TenantUsuarioPorUsuario({
-                usuario_id: typeof medicoId === 'string' ? ExpressCassandra.uuid(medicoId) : medicoId,
+                usuario_id: typeof medicoId === 'string' ? models.uuidFromString(medicoId) : medicoId,
                 tenant_id: fixedTenantId,
                 tenant_nome: 'Clínica Saúde APP',
                 papeis: ['MEDICO', 'PACIENTE'],
                 ativo: true
             }).save({ return_query: true }),
             new schemas.Medico({
-                usuario_id: typeof medicoId === 'string' ? ExpressCassandra.uuid(medicoId) : medicoId,
-                crm: 'CRM987654-RJ',
+                usuario_id: typeof medicoId === 'string' ? models.uuidFromString(medicoId) : medicoId,
+                crm: '98765',
                 ativo: true,
                 created_at: timestamp,
                 updated_at: timestamp

@@ -76,9 +76,11 @@ fs.writeFileSync(path.join(__dirname, 'src', 'routes', 'medico.routes.js'), rout
 
 const appPath = path.join(__dirname, 'src', 'app.js');
 const appContent = fs.readFileSync(appPath, 'utf8');
-const appNewContent = appContent
-    .replace("const tenantRoutes = require('./routes/tenant.routes');", "const tenantRoutes = require('./routes/tenant.routes');\nconst medicoRoutes = require('./routes/medico.routes');")
-    .replace("app.use('/tenants', tenantRoutes);", "app.use('/tenants', tenantRoutes);\napp.use('/medicos', medicoRoutes);");
-fs.writeFileSync(appPath, appNewContent);
+if (!appContent.includes("require('./routes/medico.routes')")) {
+    const appNewContent = appContent
+        .replace("const tenantRoutes = require('./routes/tenant.routes');", "const tenantRoutes = require('./routes/tenant.routes');\nconst medicoRoutes = require('./routes/medico.routes');")
+        .replace("app.use('/tenants', tenantRoutes);", "app.use('/tenants', tenantRoutes);\napp.use('/medicos', medicoRoutes);");
+    fs.writeFileSync(appPath, appNewContent);
+}
 
 console.log('Medico API fixed.');

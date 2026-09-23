@@ -17,6 +17,10 @@ class DiagnosticoService {
             throw new Error('O paciente_id é obrigatório.');
         }
 
+        if (String(paciente_id) === String(medico_id)) {
+            throw new Error('Não é permitido emitir um diagnóstico para si mesmo.');
+        }
+
         // Regra 2 e 3: Perfil profissional existe e está ativo
         const medico = await medicoRepository.findById(medico_id);
         if (!medico) {
@@ -28,7 +32,7 @@ class DiagnosticoService {
 
         // Regra 4 e 5: Paciente pertence ao mesmo tenant e possui o papel PACIENTE
         let pacienteNoTenant = await tenantRepository.findUserInTenant(tenant_id, paciente_id);
-        if (!pacienteNoTenant && contextoTenant.tipo_tenant === 'AUTONOMO') {
+        if (!pacienteNoTenant) {
             const paciente = await usuarioRepository.findById(paciente_id);
             if (!paciente) {
                 throw new Error('Paciente não encontrado no sistema.');
@@ -36,15 +40,16 @@ class DiagnosticoService {
             if (paciente.ativo === false) {
                 throw new Error('O cadastro do paciente está inativo no sistema.');
             }
-            pacienteNoTenant = await tenantRepository.upsertUserInTenant({
+            await tenantRepository.upsertUserInTenant({
                 tenantId: tenant_id,
                 usuarioId: paciente_id,
-                tenantNome: contextoTenant.tenant_nome || 'Atendimento autônomo',
+                tenantNome: contextoTenant.tenant_nome || (contextoTenant.tipo_tenant === 'AUTONOMO' ? 'Atendimento autônomo' : 'Clínica'),
                 papeis: ['PACIENTE']
             });
+            pacienteNoTenant = await tenantRepository.findUserInTenant(tenant_id, paciente_id);
         }
         if (!pacienteNoTenant) {
-            throw new Error('Paciente não pertence a esta instituição.');
+            throw new Error('Paciente não pôde ser vinculado a esta instituição.');
         }
         if (!pacienteNoTenant.ativo) {
             throw new Error('O cadastro do paciente está inativo nesta instituição.');
@@ -75,12 +80,34 @@ class DiagnosticoService {
         };
     }
 
+    async hydrateNomes(result) {
+        if (!result || !result.data) return result;
+        const usuarioRepo = require('../repositories/usuario.repository');
+        const usersIds = new Set();
+        result.data.forEach(d => {
+            if (d.paciente_id) usersIds.add(d.paciente_id.toString());
+            if (d.medico_id) usersIds.add(d.medico_id.toString());
+        });
+        const nomesMap = {};
+        for (let id of usersIds) {
+            const user = await usuarioRepo.findById(id);
+            if (user) nomesMap[id] = user.nome_completo;
+        }
+        result.data = result.data.map(d => ({
+            ...d,
+            pacienteNome: d.paciente_id ? nomesMap[d.paciente_id.toString()] || 'Desconhecido' : '',
+            medicoNome: d.medico_id ? nomesMap[d.medico_id.toString()] || 'Desconhecido' : ''
+        }));
+        return result;
+    }
+
     async listarPorTenant(tenant_id, pageState, limit) {
         let stateBuffer = null;
         if (pageState) {
             stateBuffer = Buffer.from(pageState, 'hex');
         }
-        return await diagnosticoRepository.findByTenant(tenant_id, stateBuffer, limit);
+        const result = await diagnosticoRepository.findByTenant(tenant_id, stateBuffer, limit);
+        return await this.hydrateNomes(result);
     }
 
     async listarPorPaciente(tenant_id, paciente_id, pageState, limit) {
@@ -88,7 +115,8 @@ class DiagnosticoService {
         if (pageState) {
             stateBuffer = Buffer.from(pageState, 'hex');
         }
-        return await diagnosticoRepository.findByPaciente(tenant_id, paciente_id, stateBuffer, limit);
+        const result = await diagnosticoRepository.findByPaciente(tenant_id, paciente_id, stateBuffer, limit);
+        return await this.hydrateNomes(result);
     }
 
     async cancelarDiagnostico(diagnostico_id, tenant_id, medico_id) {

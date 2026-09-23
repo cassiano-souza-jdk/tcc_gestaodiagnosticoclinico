@@ -1,7 +1,9 @@
+const { connectDB } = require('./database');
 const schemas = require('../models');
 const runSeed = require('./seed');
 
 async function syncAll() {
+    await connectDB();
     for (const modelName of Object.keys(schemas)) {
         console.log(`Sincronizando tabela para: ${modelName}`);
         await schemas[modelName].syncDBAsync();

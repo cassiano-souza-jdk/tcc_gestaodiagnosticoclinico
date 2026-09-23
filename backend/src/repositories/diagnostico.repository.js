@@ -6,9 +6,9 @@ class DiagnosticoRepository {
     async create(diagnosticoData, acaoAuditoria) {
         const id = ExpressCassandra.uuid();
         const timestamp = new Date();
-        const tenantId = ExpressCassandra.uuid(diagnosticoData.tenant_id);
-        const pacienteId = ExpressCassandra.uuid(diagnosticoData.paciente_id);
-        const medicoId = ExpressCassandra.uuid(diagnosticoData.medico_id);
+        const tenantId = typeof diagnosticoData.tenant_id === 'string' ? models.uuidFromString(diagnosticoData.tenant_id) : diagnosticoData.tenant_id;
+        const pacienteId = typeof diagnosticoData.paciente_id === 'string' ? models.uuidFromString(diagnosticoData.paciente_id) : diagnosticoData.paciente_id;
+        const medicoId = typeof diagnosticoData.medico_id === 'string' ? models.uuidFromString(diagnosticoData.medico_id) : diagnosticoData.medico_id;
 
         const diagnosticoPorTenant = new schemas.DiagnosticoPorTenant({
             tenant_id: tenantId,
@@ -63,10 +63,10 @@ class DiagnosticoRepository {
         if (pageState) options.pageState = pageState;
 
         return new Promise((resolve, reject) => {
-            schemas.DiagnosticoPorTenant.find({ tenant_id: ExpressCassandra.uuid(tenantId) }, options, (err, result) => {
+            schemas.DiagnosticoPorTenant.find({ tenant_id: typeof tenantId === 'string' ? models.uuidFromString(tenantId) : tenantId }, options, (err, result) => {
                 if (err) return reject(err);
                 resolve({
-                    data: result.rows,
+                    data: result,
                     pageState: result.pageState ? result.pageState.toString('hex') : null
                 });
             });
@@ -77,14 +77,36 @@ class DiagnosticoRepository {
         const options = { raw: true, fetchSize: limit };
         if (pageState) options.pageState = pageState;
 
+        if (tenantId === 'paciente_tenant') {
+            options.allow_filtering = true;
+            return new Promise((resolve, reject) => {
+                schemas.DiagnosticoPorPaciente.find({ 
+                    paciente_id: typeof pacienteId === 'string' ? models.uuidFromString(pacienteId) : pacienteId
+                }, options, (err, result) => {
+                    if (err) return reject(err);
+                    
+                    // Como a consulta global não respeita a ordenação da clustering key (pois a partition key varia), 
+                    // precisamos ordenar manualmente pelo created_at (desc).
+                    if (Array.isArray(result)) {
+                        result.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                    }
+                    
+                    resolve({
+                        data: result,
+                        pageState: result.pageState ? result.pageState.toString('hex') : null
+                    });
+                });
+            });
+        }
+
         return new Promise((resolve, reject) => {
             schemas.DiagnosticoPorPaciente.find({ 
-                tenant_id: ExpressCassandra.uuid(tenantId),
-                paciente_id: ExpressCassandra.uuid(pacienteId)
+                tenant_id: typeof tenantId === 'string' ? models.uuidFromString(tenantId) : tenantId,
+                paciente_id: typeof pacienteId === 'string' ? models.uuidFromString(pacienteId) : pacienteId
             }, options, (err, result) => {
                 if (err) return reject(err);
                 resolve({
-                    data: result.rows,
+                    data: result,
                     pageState: result.pageState ? result.pageState.toString('hex') : null
                 });
             });
@@ -94,8 +116,8 @@ class DiagnosticoRepository {
     async findByIdAndTenant(tenantId, diagnosticoId) {
         // ALLOW FILTERING aqui é seguro porque estamos confinados na partição correta (tenant_id)
         return await schemas.DiagnosticoPorTenant.findOneAsync({ 
-            tenant_id: ExpressCassandra.uuid(tenantId),
-            diagnostico_id: ExpressCassandra.uuid(diagnosticoId)
+            tenant_id: typeof tenantId === 'string' ? models.uuidFromString(tenantId) : tenantId,
+            diagnostico_id: typeof diagnosticoId === 'string' ? models.uuidFromString(diagnosticoId) : diagnosticoId
         }, { allow_filtering: true });
     }
 
@@ -114,7 +136,7 @@ class DiagnosticoRepository {
             tenant_id: tId,
             created_at: timestamp,
             acao: acaoAuditoria,
-            usuario_id: ExpressCassandra.uuid(medicoId),
+            usuario_id: typeof medicoId === 'string' ? models.uuidFromString(medicoId) : medicoId,
             detalhes: JSON.stringify({ diagnostico_id: dId.toString(), paciente_id: pId.toString(), status_novo: novoStatus })
         });
 

@@ -15,7 +15,16 @@ const requireTenantRoles = (...allowedRoles) => {
             }
 
             // Validação simples de formato UUID para evitar crash do Express-Cassandra
-            const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+            const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+            
+            if (tenantId === 'paciente_tenant') {
+                req.tenant = { id: 'paciente_tenant', papeis: ['PACIENTE'] };
+                if (!allowedRoles.includes('PACIENTE')) {
+                    return res.status(403).json({ error: 'Acesso negado: Perfil não tem permissão para esta rota.' });
+                }
+                return next();
+            }
+
             if (!uuidRegex.test(tenantId)) {
                 return res.status(400).json({ error: 'Header X-Tenant-ID inválido.' });
             }

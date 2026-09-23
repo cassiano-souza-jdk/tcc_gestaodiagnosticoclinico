@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Alert, Image, Modal, Pressable, ScrollView, Text, View, useWindowDimensions } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import Tela from "../../components/Tela";
 import CampoApp from "../../components/CampoApp";
@@ -15,6 +16,7 @@ import {
   listarDiagnosticosPaciente,
   listarLinhasTempo,
   buscarPacientes,
+  obterRecomendacoesIA,
 } from "../../services/diagnosisService";
 import { mascararCpf, formatarDataBr } from "../../utils/masks";
 
@@ -38,6 +40,7 @@ export default function TelaCriarDiagnostico({ navigation: navegacao }) {
   const { width: largura } = useWindowDimensions();
   const telaLarga = largura >= 900;
   const acoesCompactas = largura < 640;
+
   const [unidades, definirUnidades] = useState([]);
   const [unidadesCarregadas, definirUnidadesCarregadas] = useState(false);
   const [erroUnidades, definirErroUnidades] = useState("");
@@ -67,6 +70,14 @@ export default function TelaCriarDiagnostico({ navigation: navegacao }) {
   const [modalConfirmacao, definirModalConfirmacao] = useState(false);
   const [modalLinhaTempo, definirModalLinhaTempo] = useState(false);
   const [modalMedicamento, definirModalMedicamento] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (!modoEdicao) {
+        definirModalPaciente(true);
+      }
+    }, [modoEdicao])
+  );
   const [termoBusca, definirTermoBusca] = useState("");
   const [opcoesPacientes, definirOpcoesPacientes] = useState([]);
   const [paciente, definirPaciente] = useState(null);
@@ -82,6 +93,19 @@ export default function TelaCriarDiagnostico({ navigation: navegacao }) {
   const [diagnosticosPaciente, definirDiagnosticosPaciente] = useState([]);
   const [existentesSelecionados, definirExistentesSelecionados] = useState([]);
   const [erroLinhaTempo, definirErroLinhaTempo] = useState("");
+  const [recomendacoesIA, definirRecomendacoesIA] = useState([]);
+
+  useEffect(() => {
+    if (cid && cid.length > 2) {
+      obterRecomendacoesIA(cid, unidadeId).then(sugestoes => {
+        definirRecomendacoesIA(sugestoes);
+      }).catch(err => {
+        console.error("Erro ao obter recomendações IA:", err);
+      });
+    } else {
+      definirRecomendacoesIA([]);
+    }
+  }, [cid, unidadeId]);
 
   useEffect(() => {
     if (!edicaoDiagnostico) return;
@@ -117,9 +141,9 @@ export default function TelaCriarDiagnostico({ navigation: navegacao }) {
       definirOpcoesPacientes([]);
       return undefined;
     }
-    buscarPacientes(termoLimpo).then((itens) => ativo && definirOpcoesPacientes(itens));
+    buscarPacientes(termoLimpo).then((itens) => ativo && definirOpcoesPacientes(itens.filter((item) => item.id !== usuario.id)));
     return () => { ativo = false; };
-  }, [termoBusca, modalPaciente]);
+  }, [termoBusca, modalPaciente, usuario.id]);
 
   useEffect(() => {
     if (!paciente) return;
@@ -344,6 +368,27 @@ export default function TelaCriarDiagnostico({ navigation: navegacao }) {
                 <Text className="flex-1 font-black text-ink">Medicamentos prescritos</Text>
                 <BotaoAcaoResponsivo icone="medkit-outline" rotulo="Adicionar medicamento" aoPressionar={() => definirModalMedicamento(true)} compacto={acoesCompactas} />
               </View>
+
+              {recomendacoesIA.length > 0 && (
+                <View className="mb-4 rounded-xl border border-blue-200 bg-blue-50 p-3">
+                  <View className="mb-2 flex-row items-center">
+                    <Ionicons name="sparkles" size={18} color="#2563EB" />
+                    <Text className="ml-2 font-black text-blue-900">Sugestões da IA para {cid}</Text>
+                  </View>
+                  <View className="flex-row flex-wrap gap-2">
+                    {recomendacoesIA.map((rec, idx) => (
+                      <Pressable 
+                        key={idx} 
+                        onPress={() => adicionarMedicamento({ id: `ai-${idx}`, nome: rec.medicamento_nome })}
+                        className="rounded-full bg-blue-100 px-3 py-1 border border-blue-300 active:bg-blue-200"
+                      >
+                        <Text className="text-sm font-semibold text-blue-800">{rec.medicamento_nome} ({Math.round(rec.confianca_percentual)}%)</Text>
+                      </Pressable>
+                    ))}
+                  </View>
+                </View>
+              )}
+
               {medicamentos.length === 0 ? <Text className="text-sm text-slate-500">Nenhum medicamento adicionado.</Text> : medicamentos.map((m, indice) => (
                 <View key={`${m.medicamentoId}-${indice}`} className="mb-3 rounded-2xl bg-mint-50 p-4">
                   <View className="mb-3 flex-row justify-between gap-3">
@@ -385,9 +430,9 @@ export default function TelaCriarDiagnostico({ navigation: navegacao }) {
         </View>
       </View>
 
-      <Modal transparent animationType="fade" visible={modalPaciente} onRequestClose={() => paciente && definirModalPaciente(false)}>
-        <View className="flex-1 items-center justify-center bg-black/30 p-5">
-          <View className="w-full max-w-[520px] rounded-3xl bg-white p-6 hover:shadow-xl transition-all duration-200">
+      <Modal transparent animationType="fade" visible={modalPaciente} onRequestClose={() => definirModalPaciente(false)}>
+        <Pressable className="flex-1 items-center justify-center bg-black/30 p-5" onPress={() => definirModalPaciente(false)}>
+          <Pressable className="w-full max-w-[520px] rounded-3xl bg-white p-6 shadow-xl transition-all duration-200" onPress={(e) => e.stopPropagation()}>
             <Text className="text-2xl font-black text-ink">Qual paciente irá consultar?</Text>
             <Text className="mb-5 mt-2 text-slate-500">Digite nome ou CPF. Os pacientes só aparecem depois que você começar a digitar.</Text>
             <CampoApp rotulo="Paciente" valor={termoBusca} aoAlterarTexto={definirTermoBusca} placeholder="Nome ou CPF" autoCapitalize="words" />
@@ -402,13 +447,13 @@ export default function TelaCriarDiagnostico({ navigation: navegacao }) {
               </ScrollView>
             ) : null}
             {paciente ? <Pressable onPress={() => definirModalPaciente(false)} className="mt-3 items-center"><Text className="font-bold text-slate-500">Cancelar</Text></Pressable> : null}
-          </View>
-        </View>
+          </Pressable>
+        </Pressable>
       </Modal>
 
       <Modal transparent animationType="fade" visible={modalLinhaTempo} onRequestClose={() => definirModalLinhaTempo(false)}>
-        <View className="flex-1 items-center justify-center bg-black/40 p-5">
-          <View className="max-h-[88%] w-full max-w-[680px] rounded-3xl bg-white p-6 hover:shadow-xl transition-all duration-200">
+        <Pressable className="flex-1 items-center justify-center bg-black/40 p-5" onPress={() => definirModalLinhaTempo(false)}>
+          <Pressable className="max-h-[88%] w-full max-w-[680px] rounded-3xl bg-white p-6 shadow-xl transition-all duration-200" onPress={(e) => e.stopPropagation()}>
             <Text className="text-2xl font-black text-ink">Criar linha do tempo</Text>
             <Text className="mb-5 mt-2 text-slate-500">Você pode incluir registros existentes deste paciente, inclusive diagnósticos feitos por outros médicos.</Text>
             <CampoApp rotulo="Nome da linha do tempo" valor={novoNomeLinhaTempo} aoAlterarTexto={(valor) => { definirNovoNomeLinhaTempo(valor); definirErroLinhaTempo(""); }} placeholder="Ex.: Acompanhamento respiratório" erro={erroLinhaTempo} />
@@ -421,7 +466,7 @@ export default function TelaCriarDiagnostico({ navigation: navegacao }) {
                     <View className="flex-row items-start justify-between gap-3">
                       <View className="flex-1">
                         <Text className="font-black text-ink">{d.titulo}</Text>
-                        <Text className="mt-1 text-sm text-slate-500">{formatarDataBr(d.criadoEm)} · {d.cid} · {d.medicoNome}</Text>
+                        <Text className="mt-1 text-sm text-slate-500">{formatarDataBr(d.criadoEm)} • {d.cid} • {d.medicoNome}</Text>
                       </View>
                       <Ionicons name={selected ? "checkmark-circle" : "ellipse-outline"} size={22} color={selected ? "#3F8F68" : "#94A3B8"} />
                     </View>
@@ -430,25 +475,25 @@ export default function TelaCriarDiagnostico({ navigation: navegacao }) {
               })}
             </ScrollView>
             <View className="mt-5 gap-3"><BotaoPrimario titulo="Criar e selecionar" aoPressionar={salvarLinhaTempo} /><BotaoPrimario titulo="Cancelar" variante="secondary" aoPressionar={() => { definirErroLinhaTempo(""); definirModalLinhaTempo(false); }} /></View>
-          </View>
-        </View>
+          </Pressable>
+        </Pressable>
       </Modal>
 
       <Modal transparent animationType="fade" visible={modalConfirmacao} onRequestClose={() => definirModalConfirmacao(false)}>
-        <View className="flex-1 items-center justify-center bg-black/40 p-5">
-          <View className="w-full max-w-[520px] rounded-3xl bg-white p-6 hover:shadow-xl transition-all duration-200">
+        <Pressable className="flex-1 items-center justify-center bg-black/40 p-5" onPress={() => definirModalConfirmacao(false)}>
+          <Pressable className="w-full max-w-[520px] rounded-3xl bg-white p-6 shadow-xl transition-all duration-200" onPress={(e) => e.stopPropagation()}>
             <Text className="text-2xl font-black text-ink">{modoEdicao ? "Salvar alterações?" : "Finalizar diagnóstico?"}</Text>
             <Text className="mt-2 text-slate-500">{modoEdicao ? "Confira os dados. O bloqueio será removido somente quando o backend confirmar a atualização." : "Confirme os dados antes de salvar."}</Text>
             <View className="my-5 rounded-2xl bg-mint-50 p-4 hover:shadow-xl transition-all duration-200">
-              <Text className="font-black text-ink">{titulo} · {cid}</Text>
+              <Text className="font-black text-ink">{titulo} • {cid}</Text>
               <Text className="mt-2 text-sm text-slate-600">Paciente: {paciente?.nome}</Text>
               <Text className="text-sm text-slate-600">
                 {tipoTenant === "CLINICA" ? `Unidade: ${unidade?.nome || "-"}` : "Contexto: Atendimento autônomo"}
               </Text>
             </View>
             <View className="gap-3"><BotaoPrimario titulo={modoEdicao ? "Confirmar alteração" : "Confirmar e salvar"} aoPressionar={salvar} /><BotaoPrimario titulo="Revisar" variante="secondary" aoPressionar={() => definirModalConfirmacao(false)} /></View>
-          </View>
-        </View>
+          </Pressable>
+        </Pressable>
       </Modal>
 
       <ModalSeletorMedicamento visivel={modalMedicamento} aoFechar={() => definirModalMedicamento(false)} aoSelecionar={adicionarMedicamento} />

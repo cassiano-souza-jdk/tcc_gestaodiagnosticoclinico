@@ -111,6 +111,20 @@ describe('Diagnósticos (Emissão e Consulta)', () => {
             expect(response.status).toBe(400);
         });
 
+        it('deve falhar se o médico emitir diagnóstico para si mesmo (400)', async () => {
+            const response = await request(app)
+                .post('/diagnosticos')
+                .set('Authorization', `Bearer ${tokenMedico}`)
+                .set('X-Tenant-ID', tenantId)
+                .send({
+                    paciente_id: medicoId, // Medico is the patient
+                    titulo: 'Dor de cabeca',
+                    descricao: 'Auto-diagnostico'
+                });
+            expect(response.status).toBe(400);
+            expect(response.body.error).toBe('Não é permitido emitir um diagnóstico para si mesmo.');
+        });
+
         it('deve falhar se paciente não pertencer ao tenant (400)', async () => {
             const response = await request(app)
                 .post('/diagnosticos')

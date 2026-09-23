@@ -309,3 +309,27 @@ export async function listarUnidadesMedico(medicoId) {
   const unidades = Array.isArray(resposta) ? resposta : resposta?.units ?? resposta?.unidades ?? [resposta];
   return unidades.filter(Boolean).map(normalizarUnidade);
 }
+
+export async function obterRecomendacoesIA(cidCode, unidadeId) {
+  if (!cidCode) return [];
+  try {
+    const headers = unidadeId ? { "X-Tenant-ID": unidadeId } : {};
+    const resposta = await requisitarApi(`/diagnosticos/ia/recomendacoes?cid=${encodeURIComponent(cidCode)}`, { headers });
+    return resposta?.data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+export async function enviarFeedbackIA(cid, medicamentoNome, notaEficacia) {
+  try {
+    await requisitarApi(`/diagnosticos/ia/feedback`, {
+      method: 'POST',
+      body: JSON.stringify({ cid, medicamento_nome: medicamentoNome, nota_eficacia: notaEficacia })
+    });
+  } catch (error) {
+    console.error("Erro ao enviar feedback da IA:", error);
+  }
+}
+
+
