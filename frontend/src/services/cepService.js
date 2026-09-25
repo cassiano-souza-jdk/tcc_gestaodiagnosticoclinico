@@ -1,8 +1,9 @@
-import { URL_API } from "./api";
+import { URL_API } from './api';
+const INTEGRATIONS_URL = `${URL_API}/integrations`;
 
 export async function buscarCep(cep) {
   try {
-    const resposta = await fetch(`${URL_API}/integrations/viacep/${cep}`);
+    const resposta = await fetch(`${INTEGRATIONS_URL}/viacep/${cep}`);
     if (!resposta.ok) return null;
     return await resposta.json();
   } catch {

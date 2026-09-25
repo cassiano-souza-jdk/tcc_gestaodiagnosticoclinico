@@ -1,0 +1,1252 @@
+CENTRO PAULA SOUZA
+ETEC 
+DE LINS
+ENSINO MÉDIO INTEGRADO AO TÉCNICO EM DESENVOLVIMENTO DE SISTEMAS (AMS) 
+GESTÃO E AUXÍLIO DE DIAGNÓSTICO CLÍNICO
+Cassiano Maximiano de Souza
+Gabriel 
+Massaki
+ Uemura
+ 
+Resumo:
+1.
+ INTRODUÇÃO
+O 
+diagnóstico 
+clínico
+ 
+descrito
+ de forma errônea 
+tem sido um dos maiores desafios para organizações, instituições e 
+corporações
+ que atuam na área da saúde. Sendo tema de fichas informativas 
+que pontuam sobre a segurança do paciente, afirma
+-se
+ que está entre as 10 principais causas de morte e incapacidade em todo o mundo. (
+ORGANIZAÇÃO MUNDIAL DA SAÚDE, 2019
+.
+)
+Relatos globais mostram o perigo da prescrição feita err
+ada, acarretando mortes hospitalares em torno de 44 mil a 98 mil anualmente nos Estados Unidos, superando a quantidade atribuída a acidentes de 
+trânsito
+. (COMITÊ SOBRE QUALIDADE DA ASSISTÊNCIA À SAÚDE NA AMÉRICA, 2024.)
+No Brasil, esse registro é mais preocupante, trazendo mais de 70 mil casos judiciais por
+ motivos de
+ falhas 
+médicas
+, causando aumento alarmante de 506% processos
+ a respeito
+. (CONSELHO NACIONAL DE JUSTIÇA, 2024.)
+Segundo a Organização Mundial da Saúde (OMS), estudos mostram que devido a cuidados inseguros do médico, acarreta-se mais de 
+três
+ milhões de vítimas anu
+almente. (
+ANDRADE
+, Juliana.,
+ 2025.)
+Este problema é 
+recorrente
+ 
+em
+ situações que repercute
+m
+ há anos, onde infelizmente, são levados em casos irreversíveis que impactam hospitais e unidades tendo 
+impactos 
+financeiros, 
+produtivos e até familiares da vítima, aumentando gastos em até 200,5%.
+ (DUARTE et al., 2015)
+.
+Diante a esse cenário, a proposta 
+para este
+ Trabalho de Conclusão de Curso
+ (TCC) é propor uma ferramenta computacional que armazena diagnósticos clínicos d
+e
+ paciente
+s
+ d
+entro de ambientes públicos e 
+particulares.
+ 
+Onde um
+a Inteligência Artificial 
+auxilia 
+os médicos 
+na prescrição de medicamentos, com base 
+em
+ diagnósticos
+ anteriores de cada paciente
+.
+ Além disso, o paciente pode avaliar a eficácia do medicamento, auxiliando o algoritmo
+ a recomendações futuras.
+ 
+Para o desenvolvimento
+ do projeto, são utilizadas as ferramentas: V
+isual Studio 
+Code
+, GPT-O
+S
+S
+ e
+ 
+Apache Cassandra
+. Além desses recursos são 
+utilizadas
+ as seguintes linguagens: HTML, CSS
+ e
+ Python
+. Atuando juntamente
+ com bibliotecas e 
+Engines
+:
+ 
+React
+,
+ 
+React
+ 
+Native
+,
+ 
+Vite e Node JS
+.
+2. ANÁLISE DE MERCADO
+Neste capítulo é realizada a pesquisa de mercado com o intuito de comprovar a viabilidade deste projeto de pesquisa.
+Para isso, f
+oram criados
+ dois questionários, um visando o público geral e o outro para técnicos da área da saúde. 
+2.1 
+Questionário Aplicado Para População
+Por meio da figura 
+1
+ é possível visualizar 
+o questionário aplicado
+ para a população habitual sem embasamento técnico na área da saúde.
+Figura 
+1
+ – Perguntas utilizadas para o questionário aplicado a população
+Fonte: Elaborado pelos autores, 2026
+2.
+2
+ 
+Resultados Obtidos com a Aplicação do Questionário 
+Para População
+Os resultados obtidos 
+c
+o
+m a aplicação do
+ questionário 
+p
+ara 
+p
+opulação
+ 
+podem ser visualizados p
+or
+ meio dos gráficos
+ de
+ 1 ao 
+6
+, que são referentes
+ a 
+opinião
+ pública
+.
+Gráfico 
+1
+Fonte: Elaborado pelos autores, 2026
+.
+Gráfico 
+2
+Fonte: Elaborado pelos autores, 2026
+.
+Gráfico 
+3
+Fonte: Elaborado pelos autores, 2026
+.
+Gráfico 
+4
+Fonte: Elaborado pelos autores, 2026
+.
+Gráfico 
+5
+Fonte: Elaborado pelos autores, 2026
+.
+Gráfico 
+6
+Fonte: Elaborado pelos autores, 2026
+.
+2.
+3
+ 
+Análise 
+d
+os Resultados Obtidos 
+p
+ara Questionário Aplicado a População
+Por meio da aná
+lise dos resultados obtidos, foram
+ observado
+s
+ que o resultado
+ gerado
+ a uma possível melhoria na relação entre as queixas
+, já que apresenta
+ resultado
+ bem acirrado entre os que consideram “bom” (38,5%) e 
+o 
+“regular” (30,8%) n
+as situações do paciente com a prescrição de medicamentos feita pelo médico.
+ Além disso, 
+é notória
+ uma carência considerável 
+que “nunca” (
+12,8%
+)
+ o 
+médico
+ 
+considerou 
+ao diagnosticar o paciente 
+n
+a correlação com
+ seu condicionamento (alergias, utilização
+ de outros medicamentos e doenças prévias).
+Com isso
+, é possível determinar que embora não haja uma necessidade alarmante de um software que tenha as funcionalidades propostas deste projeto, ele possui um espaço no mercado onde poderá ser preenchido sem concorrências no presente momento.
+2.
+4
+ 
+Questionário Aplicado 
+p
+ara Profissionais 
+d
+a Saúde
+Por meio da figura 2 é possível visualizar o questionário aplicado para 
+uma comunidade especializada e/ou envolvente 
+na
+ área da saúde.
+Figura 
+2
+ - Perguntas utilizadas para o questionário aplicado a profissionais da saúde
+Fonte: Elaborado pelos autores, 2026
+.
+2.
+5
+ 
+Resultados Obtidos com a Aplicação do Questionário Para Profissionais da Saúde
+Os resultados obtidos com a aplicação do questionário 2 podem ser visualizados por meio dos gráficos de 7 ao 12, que são referentes a opinião pública.
+Gráfico 
+7
+Fonte: Elaborado pelos autores, 2026
+.
+Gráfico 
+8
+Fonte: Elaborado pelos autores, 2026
+.
+Gráfico 
+9
+Fonte: Elaborado pelos autores, 2026
+.
+Gráfico 
+10
+Fonte: Elaborado pelos autores, 2026
+.
+Gráfico 
+11
+Fonte: Elaborado pelos autores, 2026
+.
+Gráfico 
+12
+Fonte: Elaborado pelos autores, 2026
+.
+2.
+6
+ 
+Análise 
+d
+os Resultados Obtidos 
+p
+ara Questionário Aplicado a Profissionais da Saúde
+Por meio da análise dos resultados obtidos, foram observados que há possível melhoria na prescrição de medicamentos, pois
+ 
+os envolvidos da área 
+consideram “sim” (55,6%), 
+já presenciaram o médico
+ de
+ prescreve
+r
+ um medicamento 
+incorreto para o paciente. 
+Além d
+e 
+“
+nunca
+”
+ 
+(22,2%) 
+visualizaram o clínico considerar todos os diagnósticos e histórico de saúde
+ do paciente.
+Nisso, é possível determinar que o programa irá preencher uma lacuna evidente na prescrição de medicamentos, cooperando na eficácia do atendimento clínico e na segurança medicamentosa para os pacientes, concluindo que as brechas que foram observadas poderão ser resolvidas com a finalidade do projeto proposto.
+3. TECNOLOGIAS UTILIZADAS
+Neste capítulo são apresentadas todas as tecnologias utilizadas para o desenvolvimento do sistema “
+Gestão 
+e
+ Auxílio 
+d
+e Diagnóstico Clínico
+”, bem como suas respectivas finalidades no contexto de sua implementação.
+3.1 
+VS
+c
+ode
+O 
+Visual Studio 
+Code
+ (
+VScode
+)
+ é um editor de código-fonte desenvolvido pela Microsoft para Windows, Linux e 
+macOS
+, sendo software livre e de código aberto, é customizável pela grande gama de extensões e configurações criadas pela comunidade e suportando uma grande parte das Linguagens de programação no mercado atual. O Visual Studio 
+Code
+ é baseado no Electron, um framework que é usado para desenvolver aplicativos Node.js para o desktop rodando no motor de layout 
+Blink
+.
+ (
+PROVIDELLO
+, 202
+3
+)
+. 
+Por meio da figura 
+3
+ 
+p
+ode-se observar a interface do 
+VScode
+.
+Figura 
+3
+ - Interface do 
+VScode
+Fonte: Elaborado pelos autores, 2026
+.
+No projeto abordado ele será utilizado como a IDE para desenvolver os códigos para o desenvolvimento do tal.
+3.2
+ Apache Cassandra
+Apache Cassandra é um projeto de sistema de banco de dados distribuído altamente escalável de segunda geração, que reúne a arquitetura do 
+DynamoDB
+, da 
+Amazon
+ Web Services e modelo de dados baseado no 
+BigTable
+, do Google. Cada nó no cluster tem a mesma função. Não há um ponto único de falha. Os dados são distribuídos pelo cluster (para que cada nó contenha dados diferentes), mas não há "ponta" principal, pois cada nó pode atender a qualquer solicitação. Cassandra é um amplo armazenamento de colunas e, como tal, essencialmente um híbrido entre um valor-chave e um sistema de gerenciamento de banco de dados tabular. Seu modelo de dados é um armazenamento de linha particionado com consistência ajustável. Linhas são organizadas em tabelas; o primeiro componente da chave primária de uma tabela é a chave de partição; dentro de uma partição, as linhas são agrupadas pelas colunas restantes da chave. Outras colunas podem ser indexadas separadamente da chave primária.
+ (
+OLIVEIRA
+, 202
+5
+)
+.
+ 
+Por meio da figura 
+4
+ 
+p
+ode-se observar 
+um código aplicado em
+ Apache Cassandra.
+Figura 
+4
+ - 
+Atuação do Apache Cassandra no código
+Fonte: Elaborado pelos autores, 2026
+.
+No projeto em questão ele é a O modelo de banco de dados utilizado pelo sistema, fazendo a função de armazenar todos os dados que forem coletados.
+3.3 
+TensorFlow
+O 
+TensorFlow
+ é uma biblioteca de código aberto para computação numérica, machine learning em grande escala, 
+deep
+ 
+learning
+ e outras cargas de trabalho de análise estatística e preditiva. Essas tecnologias permitem que desenvolvedores implementem modelos de machine learning de maneira mais rápida e fácil. Isso ajuda no processo de aquisição de dados, fornecendo previsões em escala e refinando resultados de aprendizagem futuros.
+ 
+Ele pode treinar e executar modelos de redes neurais profundas para classificação de dígitos manuscritos, reconhecimento de imagens, incorporação de palavras, processamento de linguagem natural (PNL) e muito mais. Você pode usar o código incluído na biblioteca do 
+TensorFlow
+ em qualquer aplicativo para treinar essas tarefas
+ (DATABRICKS, 2026)
+.
+ 
+Por meio da figura
+ 
+5
+ p
+ode-se observar 
+um mapa conceitual de como o 
+TensorFlow
+ funciona.
+Figura 
+5
+ - Mapa conceitual da função do 
+TensorFlow
+Fonte: 
+https://blog.tensorflow.org/2019/01/whats-coming-in-tensorflow-2-0.html
+, 2019.
+Sua finalidade neste Projeto será de treinar a IA usando métodos de 
+Aprendizado Supervisionado
+ e 
+Aprendizado por Reforço, assim deixando a IA pronta para a aplicação.
+3.3.1 Metodologia de Aprendizado Supervisionado
+Aprendizado supervisionado é uma técnica de aprendizado de máquina que usa conjuntos de dados rotulados para treinar modelos de inteligência artificial (IA) para identificar os padrões e as relações subjacentes. O objetivo do processo de aprendizado é criar um modelo capaz de prever saídas corretas em novos dados do mundo real. Os conjuntos de dados rotulados consistem em pontos de dados de amostra juntamente com as saídas ou respostas corretas. À medida que os dados de entrada são alimentados no algoritmo de aprendizado de máquina, ele ajusta seus parâmetros até que o modelo tenha sido ajustado adequadamente. Os dados de treinamento rotulados fornecem uma "verdade fundamental", ensinando explicitamente o modelo a identificar as relações entre funcionalidades e rótulos de dados. 
+As técnicas de aprendizado supervisionado usam um conjunto de dados de treinamento rotulado para entender as relações entre entradas e dados de saída. Cientistas de dados criam manualmente conjuntos de dados de treinamento de verdade fundamental contendo dados de entrada junto com os rótulos correspondentes. O aprendizado supervisionado treina o modelo para aplicar as saídas corretas a dados não vistos em casos de uso do mundo real. Durante o treinamento, o algoritmo do modelo processa grandes conjuntos de dados para explorar possíveis correlações entre entradas e saídas. Em seguida, o desempenho do modelo é avaliado com dados de teste para descobrir se ele foi treinado com sucesso. A validação cruzada é o processo de testar um modelo usando uma parte diferente do conjunto de dados.
+ 
+(IBM, 2026
+a
+)
+.
+ 
+Por meio da figura
+ 
+6
+ p
+ode-se observar 
+o processo que o método de aprendizado supervisionado funciona.
+Figura 
+6
+ - Processo da metodologia de aprendizado supervisionado
+Fonte: 
+https://blog.betrybe.com/tecnologia/aprendizado-supervisionado-aplicacao/
+, 2026.
+Conforme mencionado anteriormente, a aplicação dessa metodologia será indispensável no processo de treinamento da IA, uma vez que essa abordagem é fundamental para assegurar a confiabilidade, consistência e acurácia das respostas geradas pelo modelo.
+3.3.2 Metodologia de Aprendizado Por Reforço
+O método de aprendizado por reforço consiste em treinar a IA para tomar decisões mediante ao ambiente que ela foi estabelecida para resolver tal requisição. Nisso, é constantemente realizado o processo de tentativa e erro, na qual, o avaliador (sendo uma pessoa ou um sistema) retorna uma recompensa ou um estado, dependendo da ação do agente 
+(AWS, 2026)
+.
+ 
+Por meio da figura 
+7
+ pode-se observar um exemplo do processo que essa metodologia é aplicada.
+Figura 
+7
+ - Processo da metodologia de aprendizado por reforço
+Fonte:
+https://upload.wikimedia.org/wikipedia/commons/a/a4/Aprendizado_por_Refor%C3%A7o.png?utm_source=pt.wikiversity.org&utm_campaign=index&utm_content=original
+, 2026.
+Contudo, a utilização dessa estratégia é fundamental para o treinamento da IA atuando juntamente com a metodologia anterior, criando um agente preparado para sua finalidade do projeto.
+3.
+4
+ Vite
+O Vite é uma ferramenta moderna de desenvolvimento e build para aplicações web, criada por Evan 
+You
+ e mantida pela 
+VoidZero
+ Inc. Ele utiliza internamente o 
+Rollup
+ e o 
+esbuild
+ para gerenciar dependências. Seu principal diferencial é o recarregamento rápido durante o desenvolvimento: ao detectar alterações nos arquivos, o Vite atualiza apenas o módulo modificado usando Hot Module 
+Replacement
+ (HMR), em vez de recompilar toda a aplicação, o que reduz significativamente o tempo de espera. Ele funciona com arquitetura cliente-servidor, suporta renderização no servidor (SSR), usa por padrão a porta 5173 e pode ser 
+configurado para HTTPS e integração com 
+backend
+ como Apache HTTP Server. Também permite comunicação em tempo real via 
+WebSocket
+, inclusive com envio de mensagens personalizadas entre cliente e servidor.
+ 
+(CAIO, 2024). 
+Por meio da figura 
+8
+ 
+p
+ode-se observar 
+um arquivo 
+package.
+json
+ mostrando scripts para rodar o Vite.
+Figura 
+8
+ - 
+Scripts para o Vite entrar em execução
+Fonte: Elaborado pelos autores, 2026.
+Sua funcionalidade consiste em fornecer a 
+Engine
+ necessária para que o front-
+end
+ criado em 
+React
+ possa ser executado.
+3.
+5
+ Node JS
+Node.js é um ambiente que permite rodar 
+JavaScript
+ no servidor, fora do navegador, usando o motor V8 do Chrome, o que garante alto desempenho. Ele funciona com um modelo assíncrono e não bloqueante, executando tudo em um único processo, sem criar vários threads para cada requisição. Isso permite lidar com muitas conexões ao mesmo tempo de forma eficiente. Além disso, facilita para desenvolvedores 
+JavaScript
+ trabalharem tanto no front-
+end
+ quanto no 
+back-end
+ e possibilita usar versões modernas do 
+JavaScript
+ sem depender dos navegadores dos usuários.
+ (
+OPENJS FOUNDATION AND NODE.JS CONTRIBUTORS
+, 2009). 
+Por meio da figura 
+9
+ p
+ode-se observar 
+a criação de um servidor usando node JS devolvendo como resposta “Olá mundo”.
+Figura 
+9
+ - 
+Código 
+NodeJS
+ criando um servidor devolvendo uma resposta "
+hello
+ world"
+Fonte: 
+https://nodejs.org/learn/getting-started/introduction-to-nodejs
+, 2009.
+No projeto em questão ele uma 
+engine
+ essencial para o funcionamento tanto do front
+-
+end
+ quanto o 
+back
+-end.
+3.
+6
+ 
+CSS
+O 
+Cascading
+ 
+Style
+ 
+Sheets
+ (CSS) 
+é uma linguagem de folhas de estilo utilizada para estilizar a forma visual de um documento escrito, em sua maioria o HTML. Ele atua como conteúdo de apresentação web 
+do arquivo
+ (MOZILLA, 2026).
+ 
+Por meio da
+ 
+figura 
+10
+ 
+p
+ode-se observar 
+a atuação do CSS em alguns componentes e classes criados do exemplo de um projeto HTML
+.
+Figura 
+10
+ - 
+Código do CSS
+Fonte: Elaborado pelos autores, 2026
+.
+Esta linguagem será utilizada na sua versão 3 para personalizar a interface gráfica
+ do projeto
+, aplicando cores, fontes, layouts e espaçamentos
+. Trabalhando em conjunto com o framework 
+Tailwind
+ CSS.
+3.
+7
+ 
+Tailwind
+ CSS
+O 
+Tailwind
+ CSS é um framework CSS de código aberto focado em construir interfaces personalizadas e modernas mediante a utilitários primitivos. Estilizando o site web por meio de um container flexível, adicionando recursos abstratos, classes e estruturas reutilizáveis, tornando o CSS mais versátil e dinâmico. (
+TAILWIND LABS INC
+, 2021). 
+Por meio da figura 
+11
+ e 
+12
+ 
+p
+ode-se observar 
+a otimização que o 
+Tailwind
+ CSS fornece em um código por meio de uma comparação.
+Figura 
+11
+ - 
+Código CSS sem o 
+Tailwind
+Fonte: 
+https://v2.tailwindcss.com/docs
+, 2021.
+Figura 
+12
+ - 
+Código CSS com o 
+Tailwind
+Fonte: 
+https://v2.tailwindcss.com/docs
+, 2021.
+Este recurso será utilizado para modelar o design do projeto, ampliando o conceito do CSS, estabelecendo modelos fornecidos pelo 
+React
+ e personalizações 
+específicas para se adequar para todas as necessidades do usuário, seja correlação as cores, as fontes ou ajudas. 
+3
+.
+8
+ Python
+O Python é uma linguagem de programação de alto nível,
+ de tipagem dinâmica e forte, que possui estruturas de dados eficientes 
+mediante a
+ uma sintaxe simples, abrangendo diversas arquiteturas, extensões e frameworks
+, sendo a 4º linguagem mais utilizada no mundo e classificada no topo para Inteligência Artificial (IA), ciência de dados e automação. Além
+ 
+de
+ comporta
+r
+ 
+P
+rogramação 
+O
+rientada a 
+O
+bjetos
+ (POO)
+,
+ é derivado na linguagem C
+, apenas exigindo uma presunção e um conhecimento básico de lógica de programação para usufruir dos recursos que o oferece.
+ (
+PYTHON DOCUMENTATION
+, 2025).
+ 
+Por meio da figura 1
+3
+ 
+p
+ode-se observar 
+a 
+linguagem Python sendo aplicada em um modelo exemplo que comporta IA
+.
+Figura 
+13
+ - 
+Código em Python comportando a relação do projeto com uma IA
+Fonte: Elaborado pelos autores, 2026
+.
+Esta linguagem será utilizad
+a
+ para 
+estabelecer uma comunicação d
+a IA 
+responsável por analisar os laudos e medicamentos abordados feitos pelos atuadores da área da saúde mediante ao histórico de saúde do paciente, retornando uma resposta apurada 
+no projeto.
+3.
+9
+ 
+PyTorch
+O 
+PyTorch
+ é um framework de 
+deep
+ 
+learning
+ de código aberto baseado em software, usado para construir redes neurais, combinando a biblioteca de aprendizado de máquina (ML) do 
+Torch
+ com uma API de alto nível baseada em Python. Sua flexibilidade e facilidade de uso, entre outros benefícios, o tornaram o framework líder de ML para comunidades acadêmicas e de pesquisa.
+ 
+O 
+PyTorch
+ também permite que cientistas de dados executem e testem partes do código em tempo real, em vez de esperar que todo o código seja implementado, o que, para grandes modelos de 
+deep
+ 
+learning
+, pode exigir muito tempo. Isso torna o 
+PyTorch
+ uma excelente plataforma para prototipagem rápida e ainda aceler
+a muito o processo de depuração
+ (IBM, 202
+6
+b
+).
+ 
+Por meio da figura
+ 1
+4
+ p
+ode-se observar 
+a aplicação do 
+torch
+ num modelo de projeto.
+Figura 
+14
+ - Código 
+PyTorch
+Fonte: 
+https://dev-discuss.pytorch.org/t/functionalization-in-pytorch-everything-you-wanted-to-know/965
+, 2023.
+Sua finalidade é ser a biblioteca para criação da IA onde analisara todos os dados no banco do sistema
+.
+3.
+10
+ 
+React
+O 
+React
+ é uma biblioteca 
+JavaScript
+ de código aberto, especializada para criação de interfaces interativas e dinâmicas para aplicações web, ele 
+possui tipificações como componentes reutilizáveis, funções 
+pré
+-modelados denominados 
+hooks
+ e atua no Virtual DOM para otimizar a renderização (
+META OPEN SOURCE
+, 2024)
+. 
+Por meio da figura
+ 1
+5
+ p
+ode-se observar 
+uma sintaxe 
+do 
+React
+ 
+para rodar o projeto.
+Figura 
+15
+ - 
+Estrutura fundamental para o funcionamento do 
+React
+ no código
+Fonte: Elaborado pelos autores, 2026
+.
+Es
+te framework terá a finalidade de comportar o projeto em um todo, utilizando as estilizações, os componentes, as funções
+ e outros recursos
+ fornecidos pelo 
+React
+. Além de benefícios como a responsividade já modelada e a 
+atuação juntamente com o 
+React
+ 
+Native
+ para ter a 
+portabilidade d
+e
+ funcionar em diferentes dispositivos (web/mobile).
+3.1
+1
+ 
+React
+ 
+Native
+O 
+React
+ 
+Native
+ é um
+a estrutura de software de interface de código aberto, criada pela empresa META, utilizada para desenvolver aplicativos de diferentes sistemas operacionais baseados nos conceitos do 
+React
+. (
+META OPEN SOURCE
+, 
+2026)
+. 
+Por meio da figura 
+1
+6
+ p
+ode-se observar 
+a atuação do 
+React
+ 
+Native
+ em um modelo exemplar.
+Figura 
+16
+ - 
+Código do 
+React
+ 
+Native
+ dando uma resposta "
+hello
+ world" como exemplo
+Fonte: 
+https://archive.reactnative.dev/docs/next/getting-started
+, 2026.
+Este framework possui o objetivo de estabelecer o suporte mobile para o projeto
+,
+ de forma que seja compatível para 
+diversos sistemas operacionais, oferecendo no projeto a eficiência de atuar em diversas plataformas digitais.
+3.12 CQL
+O Cassandra Query 
+Language
+ (CQL) é uma linguagem nativa utilizada no Apache Cassandra, sendo interativa para dados distribuídos e não relacionais, possuindo semelhança na sintaxe do SQL. Sua arquitetura consiste em ser otimizado e distribuído, o que auxilia no gerenciamento de armazenamento escalável, evitando uma lógica complexa (DATASTAX, 2026). Por meio da figura 17 pode-se observar um script CQL realizado numa tabela.
+Figura 
+17
+ - Código CQL do Apache Cassandra
+Fonte: 
+https://hackolade.com/help/Cassandra.html
+, 2026.
+Essa linguagem possui o propósito de atuar juntamente com Apache Cassandra, sendo necessária para criar toda a estrutura do banco dentro do servidor.
+3.13 
+CID
+ API
+ OMS
+A 
+Classificação Internacional de Doenças
+ (
+CID
+) é uma 
+Application
+ 
+Programming
+ Interface (API) oficial da Organização Mundial da Saúde (OMS) que visa padronizar nomes, códigos e categorias de doenças para buscar 
+termos clínicos de forma universal por meio de rotas e lógicas 
+HTTPs
+ (ORGANIZAÇÃO MUNDIAL DA SAÚDE, 2024). Por meio da figura 18 pode-se observar
+ exemplo de
+ 
+endpoints
+ da API por meio de requisições.
+Figura 
+18
+ - Requisição em URL da API ICD
+Fonte: 
+https://icd.who.int/docs/icd-api/APIDoc-Version2/#usage-of-htps
+, 2024
+. 
+Essa API será utilizada para padronizar os nomes das doenças, visando em 
+garantir uma veracidade sobre o diagnóstico, na qual, referenciando-os para apuração da situação do paciente.
+3.14
+ 
+EXPRESS-CASSANDRA
+Express-Cassandra é um ORM feito no ambiente de node para a base de dados apache 
+cassandra
+, os m
+odelos são escritos como módulos 
+Java Script
+ e eles criam automaticamente as tabelas de banco de dados, índices, 
+views
+ materializadas, gráficos etc. Depois disso, você pode salvar, atualizar, deletar e consultar seus dados usando os métodos de modelo suportados
+ (READ THE DOCS,
+ 2016
+)
+.
+ Por meio da figura 
+19
+ pode-se observar a implementação simples da sintaxe.
+Figura 
+19
+ - Implementação do Express-Cassandra
+Fonte: 
+https://express-cassandra.readthedocs.io/en/latest/
+, 
+2016.
+Esse ORM será utilizado para
+ uma
+ 
+acessibilidade
+ 
+moldável e
+ versátil no acesso aos dados do banco, 
+garantindo padrões e modelos, melhorando a 
+manutenibilidade e a produtividade do desenvolvimento
+ do projeto.
+3.15 SNGPC API ANVISA
+O Sistema Nacional de Gerenciamento de Produtos Controlados (SNGPC) é uma API oficial da Agência Nacional de Vigilância Sanitária (ANVISA) que visa padronizar nomes, códigos e categorias de medicamentos e 
+remédios em geral, como controlado
+s para buscar termos clínicos de forma nacional por meio de rotas e lógicas 
+HTTPs
+ (
+ANVISA
+, 2025). Por meio da figura 20 pode-se observar um trecho da sintaxe da API documentada em Swagger.
+Figura 
+20
+ - Documentação da API SNGPC
+Fonte: 
+https://sngpc-api.anvisa.gov.br/swagger/index.html
+, 2025.
+Essa API será utilizada para padronizar os nomes dos medicamentos, visando em garantir uma veracidade sobre o diagnóstico, na qual, referenciando-os para apuração da situação do paciente e auxiliar o médico, alertando as possíveis alergias ou similares do paciente.
+3.16 Docker
+O Docker é uma plataforma de conteinerização de código aberto que empacota aplicações da sua infraestrutura, podendo gerencia-los e executa-los em ambiente 
+denominado container. Além disso, essas estruturas são aplicadas em pacotes que contêm bibliotecas, dependências e diversos elementos que sustenta o ambiente de execução que são chamadas de imagens (DOCKER DOCS, 2026). Por meio da figura 21 pode-se observar a execução do servidor do Apache Cassandra 
+pelo
+ Docker.
+Figura 
+21
+ - Execução do Apache Cassandra no Docker
+Fonte: Elaborado pelos autores, 2026.
+Esse software será utilizado para hospedar o banco de dados e todas as bibliotecas e dependências essenciais para execução do Apache Cassandra por meio do Docker.
+3.17 
+Bcrypt
+O 
+Bcrypt
+ é uma função 
+hash
+ que 
+criptografa no estilo 
+OpenBSD
+, ele transforma a senha digitada em um texto criptografado (tipo 
+hash
+), visando na segurança da transferência de dados no sistema (SPRINGSOURCE, 1999). Por meio da figura 22 pode-se observar um modelo de um código exemplo utilizando a função.
+Figura 
+22
+ - Código exemplo utilizando 
+Bcrypt
+Fonte: 
+https://miro.medium.com/v2/1*X6lt8e0n_FNGMyufy4CEKg.png
+, 2019.
+Esta função terá a finalidade de criptografar senhas, 
+tokens
+ e 
+tenants
+ do sistema, garantindo uma proteção de dados evitando vulnerabilidades mediante a essa interação.
+3.18 JWT
+O 
+Json
+ Web Token (JWT) é um padrão aberto que define uma forma compacta de transmitir informações com segurança como um objeto JSON
+, u
+tilizando o conceito de token assinado, podem verificar a integridade 
+das declarações neles contidas (JWT DEBUGGER, 2026). Por meio da figura 23 pode-se observar um exemplo de um token (lado esquerdo) e os dados em formato JSON (lado direito).
+Figura 
+23
+ - E
+xemplo de um token (lado esquerdo) e os dados em formato JSON (lado direito)
+Fonte: 
+https://www.jwt.io/introduction#why-use-json-web-tokens
+, 2026. 
+Esse padrão será utilizado para autenticação durante a execução do login, gerando um token que irá permitir a entrada do usuário para o sistema.
+4. METODOLOGIAS
+Neste capítulo terá como objetivo de apresentar todo o processo desenvolvido no projeto, subdivido em etapas
+ e organizado na ordem que a produção do mesmo foi realizada.
+4.1 Banco de Dados
+4.2 
+Backend
+4.3 
+Frontend
+4.
+4
+ IA
+5. CONCLUSÃO
+Referências
+Rayhan
+ 
+A,
+ Tariq
+;
+ 
+Rishik
+,
+ 
+Vashisht
+;
+ 
+Ankur
+,
+ 
+Sinha
+;
+ 
+Yevgenia
+,
+ 
+Scherbak
+. 
+Erros na Dispensação de Medicamentos e Prevenção
+. 
+NATIONAL LIBRARY OF MEDICINE
+, 
+2024
+. Disponível em: 
+https://www.ncbi.nlm.nih.gov/books/NBK519065/#article-24883.r2
+ . Acesso em: 
+04 Mar. 2026
+.
+ 
+ANDRADE, Juliana. 
+Erros médicos crescem mais de 500% em um ano, aponta levantamento
+. METRÓPOLES. 10 mar. 2025. 
+Disponível em: 
+https://www.metropoles.com/saude/erros-medicos-crescem-em-um-ano
+. Acesso em: 
+04 Mar. 2026
+.
+ 
+LEITE V, Milena; KARINE L. S., Lara; ALMEIDA S., Erika; LIMA L, 
+Gersilane
+; RIBEIRO S., Mariana; DUARTE B. P., Isadora; NUNES O. V., 
+Ylana
+; RODRIGUES L, Larissa; MARIA T C, 
+Myllena
+; CARACAS M, Willian; GILBERTO F P, Francisco. 
+To
+ 
+err
+ 
+is
+ 
+Human
+: Uma Análise Reflexiva
+. ATENA EDITORA, 2023. Disponível em:
+https://atenaeditora.com.br/catalogo/dowload-post/76970
+. Acesso em: 04 Mar, 2026.
+PROVIDELLO, 
+Walakys
+.
+ Visual Studio 
+Code
+: A Importância de uma Poderosa Ferramenta de Desenvolvimento
+. 
+DIO.
+ 23 set. 
+202
+3. Disponível em: 
+https://www.dio.me/articles/visual-studio-code-a-importancia-de-uma-poderosa-ferramenta-de-desenvolvimento
+. 
+Acesso em: 
+29 Abr
+.
+ 2026.
+OLIVEIRA, Natália. 
+O que é o Apache Cassandra e quando usar.
+ 
+DEV. 08 jan. 2025. Disponível em: 
+https://dev.to/nfo94/o-que-e-o-apache-cassandra-e-quando-usar-gkf
+.  
+Acesso em: 
+29 Abr
+.
+ 2026.
+CAIO. 
+React
+ + 
+vite
+ porque usar
+.
+ 
+DEV. 14 out. 2024. Disponível em: 
+https://dev.to/doccaio/react-vite-porque-usar--1ba0
+.  
+Acesso
+ 
+em
+: 29 Abr. 2026.
+OPENJS FOUNDATION AND NODE.JS CONTRIBUTORS. 
+Introduction to Node.js
+. 2009. 
+Disponível em: 
+https://nodejs.org/learn/getting-started/introduction-to-nodejs
+.  
+Acesso em: 
+23 Abr
+.
+ 2026.
+DATABRICKS. 
+O que é o 
+TensorFlow
+. 
+2026. Disponível em: 
+https://www.databricks.com/br/blog/what-is-tensorflow
+.  
+Acesso em: 
+26 Mai
+.
+ 2026.
+IBM. 
+O que é aprendizado supervisionado
+. 
+2026. Disponível em:  
+https://www.ibm.com/br-pt/think/topics/supervised-learning
+.  
+Acesso em: 
+26 Mai
+.
+ 2026.
+AWS. 
+O que é aprendizado 
+por reforço
+. 
+2026. Disponível em: 
+https://aws.amazon.com/pt/what-is/reinforcement-learning/
+.  
+Acesso em: 
+26 Mai
+.
+ 2026.
+MOZILLA. MDN Web Docs. 
+CSS - MDN Web 
+Docs
+, 2026. Disponível em: 
+https://developer.mozilla.org/pt-BR/docs/Web/CSS
+.  
+Acesso em: 
+15 Abr
+.
+ 2026. 
+TAILWIND LABS INC
+. 
+Documentation
+ – 
+Tailwind
+ CSS
+. 2021. Disponível em:
+ 
+https://v2.tailwindcss.com/docs
+. 
+Acesso em: 
+22 Abr
+.
+ 2026.
+PYTHON DOCUMENTATION
+. 
+3.14.4 
+Documentation
+. 2025. Disponível em:
+ 
+https://docs.python.org/3/tutorial/index.html
+. 
+Acesso em: 
+22 Abr
+.
+ 2026.
+IBM. 
+O que é 
+Pytorch
+. 
+2026. Disponível em:
+ 
+https://www.ibm.com/br-pt/think/topics/pytorch
+.  
+Acesso em: 
+26 Mai
+.
+ 2026.
+META OPEN SOURCE. 
+Quick Start
+. 2024
+. Disponível em: 
+https://react.dev/learn
+.  
+Acesso em: 
+23 Abr
+.
+ 2026.
+META OPEN SOURCE. 
+Introdução
+. 
+2026. Disponível em: 
+https://archive.reactnative.dev/docs/next/getting-started
+.  
+Acesso em: 
+29 Abr
+.
+ 2026.
+DATASTAX. 
+Cassandra Query 
+Language
+ (CQL) - 
+DataStax
+ Docs
+. 
+2026. Disponível em: 
+https://docs.datastax.com/en/cql/hcd/index.html
+.  
+Acesso em: 
+27 Mai
+.
+ 2026.
+ORGANIZAÇÃO MUNDIAL DA SAÚDE. 
+Home Page ICD API
+. 
+2024. Disponível em: 
+https://icd.who.int/docs/icd-api/APIDoc-Version2/#usage-of-htps
+.  
+Acesso em: 
+05 
+Aug
+.
+ 2026.
+READ THE DOCS
+. 
+Express Cassandra – Read the Docs
+. 
+2016
+. 
+Disponível em: 
+https://express-cassandra.readthedocs.io/en/latest/
+.  
+Acesso em: 
+05 
+Aug
+.
+ 2026.
+ANVISA. 
+SNGPC: Anvisa disponibiliza nova ferramenta para envio de informações
+. 2025. 
+Disponível em: 
+https://www.gov.br/anvisa/pt-br/assuntos/noticias-anvisa/2025/sngpc-anvisa-disponibiliza-nova-ferramenta-para-envio-de-informacoes
+. 
+Acesso em: 
+05 
+Aug
+.
+ 2026.
+DOCKER DOCS
+. 
+What
+ 
+is
+ 
+Docker
+?
+ 202
+6
+. 
+Disponível em: 
+https://docs.docker.com/get-started/docker-overview/
+. 
+Acesso em: 
+26 
+Aug
+.
+ 2026.
+SPRINGSOURCE
+. 
+BCrypt
+ (
+spring-security-docs
+ 7.1.1 API)
+.
+ 
+1999
+. 
+Disponível em: 
+https://docs.spring.io/spring-security/reference/api/java/org/springframework/security/crypto/bcrypt/BCrypt.html
+. 
+Acesso em: 
+26 
+Aug
+.
+ 2026.
+JWT DEBUGGER
+. 
+JSON Web Token 
+Introduction
+ - jwt.io
+.
+ 
+2026
+. 
+Disponível em: 
+https://www.jwt.io/introduction#what-is-json-web-token
+. 
+Acesso em: 
+26 
+Aug
+.
+ 2026.
