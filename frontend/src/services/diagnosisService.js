@@ -153,8 +153,11 @@ export async function listarDiagnosticos(usuario) {
   if (!usuario?.id) return [];
 
   try {
-    const papelUsuario = usuario.papel ?? usuario.role;
-    const unidadeId = usuario.unidadeId ?? usuario.unitId ?? usuario.tenant_id;
+    const papelUsuario = String(usuario.papel ?? usuario.role ?? "").toLowerCase();
+    let unidadeId = usuario.unidadeId ?? usuario.unitId ?? usuario.tenant_id;
+    if (!unidadeId && papelUsuario === "paciente") {
+        unidadeId = "paciente_tenant";
+    }
     if (!unidadeId) return [];
 
     let diagnosticos;
