@@ -1,8 +1,8 @@
-const URL_API = "http://localhost:3000/integrations";
+import { URL_API } from "./api";
 
 export async function buscarCids(termo = "") {
   try {
-    const resposta = await fetch(`${URL_API}/cid?query=${encodeURIComponent(termo)}`);
+    const resposta = await fetch(`${URL_API}/integrations/cid?query=${encodeURIComponent(termo)}`);
     if (!resposta.ok) return [];
     return await resposta.json();
   } catch {
